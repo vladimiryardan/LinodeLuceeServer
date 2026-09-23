@@ -1,0 +1,26 @@
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfplan
+.terraform.lock.hcl
+crash.log
+
+# Terraform secrets / local values
+terraform/terraform.tfvars
+terraform/*.auto.tfvars
+
+# Ansible secrets
+ansible/inventory/hosts.ini
+ansible/**/*vault*
+*.retry
+
+# SSH
+*.pem
+*.key
+id_rsa
+id_ed25519
+
+# OS / editors
+.DS_Store
+.vscode/
