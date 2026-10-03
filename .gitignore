@@ -8,6 +8,9 @@ crash.log
 # Terraform secrets / local values
 terraform/terraform.tfvars
 terraform/*.auto.tfvars
+# Terraform saved plans
+*.tfplan
+**/tfplan
 
 # Ansible secrets
 ansible/inventory/hosts.ini
@@ -27,3 +30,6 @@ id_ed25519
 # Environment secrets
 .env
 .env.*
+
+# Ansible local inventory
+ansible/inventory/hosts.yml

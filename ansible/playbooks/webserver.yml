@@ -1,0 +1,13 @@
+---
+- name: Configure Lucee web server
+  hosts: webservers
+  become: true
+
+  roles:
+    - common
+    - security
+    - nginx
+    - java
+    - commandbox
+    - database
+    - certbot
