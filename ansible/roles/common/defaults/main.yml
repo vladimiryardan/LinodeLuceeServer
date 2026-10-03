@@ -1,0 +1,20 @@
+---
+common_timezone: UTC
+
+common_packages:
+  - curl
+  - wget
+  - unzip
+  - git
+  - rsync
+  - ca-certificates
+  - gnupg
+  - software-properties-common
+  - ufw
+  - fail2ban
+  - htop
+  - vim
+
+common_swap_size: 2G
+common_swap_file: /swapfile
+common_upgrade_packages: true

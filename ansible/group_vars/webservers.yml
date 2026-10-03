@@ -1,9 +1,6 @@
 ---
 server_hostname: lucee-webserver
-server_timezone: UTC
 
 nginx_enabled: true
 
 java_package: openjdk-21-jre-headless
-
-swap_size: 2G

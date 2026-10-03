@@ -1,0 +1,65 @@
+---
+- name: Set server hostname
+  ansible.builtin.hostname:
+    name: "{{ server_hostname }}"
+
+- name: Set server timezone
+  ansible.builtin.command:
+    cmd: "timedatectl set-timezone {{ common_timezone }}"
+  changed_when: false
+
+- name: Update APT cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Upgrade installed packages
+  ansible.builtin.apt:
+    upgrade: safe
+  when: common_upgrade_packages | bool
+
+- name: Install common packages
+  ansible.builtin.apt:
+    name: "{{ common_packages }}"
+    state: present
+
+- name: Check whether swap file exists
+  ansible.builtin.stat:
+    path: "{{ common_swap_file }}"
+  register: common_swap_file_stat
+
+- name: Create swap file
+  ansible.builtin.command:
+    cmd: "fallocate -l {{ common_swap_size }} {{ common_swap_file }}"
+  when: not common_swap_file_stat.stat.exists
+
+- name: Set swap file permissions
+  ansible.builtin.file:
+    path: "{{ common_swap_file }}"
+    owner: root
+    group: root
+    mode: "0600"
+
+- name: Initialize swap file
+  ansible.builtin.command:
+    cmd: "mkswap {{ common_swap_file }}"
+  when: not common_swap_file_stat.stat.exists
+
+- name: Check active swap
+  ansible.builtin.command:
+    cmd: swapon --show=NAME --noheadings
+  register: common_active_swap
+  changed_when: false
+
+- name: Enable swap
+  ansible.builtin.command:
+    cmd: "swapon {{ common_swap_file }}"
+  when: common_swap_file not in common_active_swap.stdout
+
+- name: Persist swap in fstab
+  ansible.builtin.mount:
+    name: none
+    src: "{{ common_swap_file }}"
+    fstype: swap
+    opts: sw
+    state: present
