@@ -26,14 +26,8 @@ variable "instance_label" {
   default     = "lucee-webserver"
 }
 
-variable "hostname" {
-  description = "Server hostname"
+variable "ssh_public_key_path" {
+  description = "Path to the SSH public key installed on the Linode"
   type        = string
-  default     = "lucee-webserver"
-}
-
-variable "ssh_public_key" {
-  description = "SSH public key installed on the Linode"
-  type        = string
-  sensitive   = true
+  default     = "~/.ssh/linode-lucee.pub"
 }
