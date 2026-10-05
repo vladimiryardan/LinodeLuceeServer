@@ -1,0 +1,16 @@
+---
+- name: Install Certbot and Nginx plugin
+  ansible.builtin.apt:
+    name: "{{ certbot_packages }}"
+    state: present
+    update_cache: true
+
+- name: Verify Certbot installation
+  ansible.builtin.command:
+    cmd: certbot --version
+  register: certbot_version
+  changed_when: false
+
+- name: Display installed Certbot version
+  ansible.builtin.debug:
+    var: certbot_version.stdout

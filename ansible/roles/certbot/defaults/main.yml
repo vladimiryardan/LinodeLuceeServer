@@ -1,0 +1,6 @@
+---
+certbot_packages:
+  - certbot
+  - python3-certbot-nginx
+
+certbot_manage_certificates: false
