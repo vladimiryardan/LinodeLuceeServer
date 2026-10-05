@@ -1,0 +1,17 @@
+---
+database_engine: mariadb
+
+mariadb_packages:
+  - mariadb-server
+  - mariadb-client
+  - python3-pymysql
+
+mariadb_service_name: mariadb
+
+# Database must not be exposed publicly.
+mariadb_bind_address: "127.0.0.1"
+mariadb_port: 3306
+
+# New databases will use a modern character set.
+mariadb_character_set: utf8mb4
+mariadb_collation: utf8mb4_unicode_ci
