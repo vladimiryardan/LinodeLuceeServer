@@ -5,9 +5,9 @@
 
   roles:
     - common
-    - security
-    - nginx
+    - database
     - java
     - commandbox
-    - database
+    - nginx
+    - security
     - certbot

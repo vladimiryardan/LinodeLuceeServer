@@ -17,6 +17,7 @@ websites:
     database:
       enabled: true
       name: atticladderph
+      user: atticladderph
       character_set: utf8mb4
       collation: utf8mb4_unicode_ci
 
@@ -35,5 +36,6 @@ websites:
     database:
       enabled: true
       name: onevoix
+      user: onevoix
       character_set: utf8mb4
       collation: utf8mb4_unicode_ci

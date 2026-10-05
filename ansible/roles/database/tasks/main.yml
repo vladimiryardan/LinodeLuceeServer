@@ -24,3 +24,25 @@
     regexp: '^port\s*='
     line: "port = {{ mariadb_port }}"
   notify: Restart MariaDB
+
+- name: Create application databases
+  community.mysql.mysql_db:
+    name: "{{ item.database.name }}"
+    state: present
+    encoding: "{{ item.database.character_set | default(mariadb_character_set) }}"
+    collation: "{{ item.database.collation | default(mariadb_collation) }}"
+    login_unix_socket: /run/mysqld/mysqld.sock
+  loop: "{{ websites }}"
+  when: item.database.enabled | default(false) | bool
+
+- name: Create application database users
+  community.mysql.mysql_user:
+    name: "{{ item.database.user }}"
+    password: "{{ database_passwords[item.name] }}"
+    host: localhost
+    priv: "{{ item.database.name }}.*:ALL"
+    state: present
+    login_unix_socket: /run/mysqld/mysqld.sock
+  loop: "{{ websites }}"
+  when: item.database.enabled | default(false) | bool
+  no_log: true
