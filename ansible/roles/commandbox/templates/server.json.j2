@@ -1,0 +1,17 @@
+{
+    "name": "{{ item.name }}",
+    "web": {
+        "host": "{{ lucee_bind_address }}",
+        "http": {
+            "port": {{ item.lucee.port }}
+        },
+        "webroot": "{{ item.webroot }}"
+    },
+    "app": {
+        "cfengine": "{{ lucee_engine }}@{{ lucee_version }}"
+    },
+    "jvm": {
+        "heapSize": "{{ item.lucee.java_xmx }}",
+        "minHeapSize": "{{ item.lucee.java_xms }}"
+    }
+}

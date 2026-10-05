@@ -33,3 +33,6 @@ id_ed25519
 
 # Ansible local inventory
 ansible/inventory/hosts.yml
+
+# Local Python environment
+.venv/

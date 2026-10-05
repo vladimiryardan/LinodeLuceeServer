@@ -1,0 +1,21 @@
+[Unit]
+Description=CommandBox Lucee Server - {{ item.name }}
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+
+User={{ commandbox_server_user }}
+Group={{ commandbox_server_group }}
+
+WorkingDirectory={{ item.webroot }}
+Environment="COMMANDBOX_HOME={{ commandbox_home }}"
+
+ExecStart={{ commandbox_binary }} server start --console --serverConfigFile={{ item.webroot }}/server.json
+
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

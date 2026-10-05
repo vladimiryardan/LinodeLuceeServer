@@ -1,0 +1,78 @@
+---
+- name: Create CommandBox home
+  ansible.builtin.file:
+    path: "{{ commandbox_home }}"
+    state: directory
+    owner: "{{ commandbox_server_user }}"
+    group: "{{ commandbox_server_group }}"
+    mode: "0755"
+
+- name: Create website webroots
+  ansible.builtin.file:
+    path: "{{ item.webroot }}"
+    state: directory
+    owner: "{{ commandbox_server_user }}"
+    group: "{{ commandbox_server_group }}"
+    mode: "0755"
+  loop: "{{ websites }}"
+
+- name: Download Ortus repository signing key
+  ansible.builtin.get_url:
+    url: "{{ commandbox_apt_key_url }}"
+    dest: /tmp/ortus-commandbox.gpg
+    mode: "0644"
+
+- name: Install Ortus repository signing key
+  ansible.builtin.command:
+    cmd: >-
+      gpg --dearmor
+      --output {{ commandbox_apt_keyring }}
+      /tmp/ortus-commandbox.gpg
+    creates: "{{ commandbox_apt_keyring }}"
+
+- name: Configure Ortus CommandBox repository
+  ansible.builtin.apt_repository:
+    repo: "{{ commandbox_apt_repository }}"
+    filename: commandbox
+    state: present
+
+- name: Install CommandBox
+  ansible.builtin.apt:
+    name: "{{ commandbox_package }}"
+    state: present
+    update_cache: true
+
+- name: Render CommandBox server configuration
+  ansible.builtin.template:
+    src: server.json.j2
+    dest: "{{ item.webroot }}/server.json"
+    owner: "{{ commandbox_server_user }}"
+    group: "{{ commandbox_server_group }}"
+    mode: "0644"
+  loop: "{{ websites }}"
+  register: commandbox_server_configs
+
+- name: Create systemd service for each Lucee instance
+  ansible.builtin.template:
+    src: commandbox.service.j2
+    dest: "/etc/systemd/system/commandbox-{{ item.name }}.service"
+    owner: root
+    group: root
+    mode: "0644"
+  loop: "{{ websites }}"
+  notify: Reload systemd
+
+- name: Enable and start CommandBox servers
+  ansible.builtin.systemd:
+    name: "commandbox-{{ item.name }}.service"
+    enabled: true
+    state: started
+    daemon_reload: true
+  loop: "{{ websites }}"
+
+- name: Restart CommandBox server when configuration changed
+  ansible.builtin.systemd:
+    name: "commandbox-{{ item.item.name }}.service"
+    state: restarted
+  loop: "{{ commandbox_server_configs.results }}"
+  when: item.changed

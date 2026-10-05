@@ -1,0 +1,16 @@
+---
+commandbox_package: commandbox
+commandbox_binary: /usr/bin/box
+
+commandbox_apt_key_url: https://downloads.ortussolutions.com/debs/gpg
+commandbox_apt_keyring: /usr/share/keyrings/ortus-commandbox.gpg
+commandbox_apt_repository: "deb [signed-by=/usr/share/keyrings/ortus-commandbox.gpg] http://downloads.ortussolutions.com/debs/noarch /"
+
+commandbox_home: /var/lib/commandbox
+
+lucee_engine: lucee
+lucee_version: "6.2.8+20"
+lucee_bind_address: "127.0.0.1"
+
+commandbox_server_user: www-data
+commandbox_server_group: www-data
