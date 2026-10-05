@@ -1,0 +1,13 @@
+---
+security_ufw_default_incoming_policy: deny
+security_ufw_default_outgoing_policy: allow
+
+security_ufw_allowed_tcp_ports:
+  - "22"
+  - "80"
+  - "443"
+
+security_fail2ban_service: fail2ban
+security_fail2ban_bantime: 1h
+security_fail2ban_findtime: 10m
+security_fail2ban_maxretry: 5
