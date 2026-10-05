@@ -16,25 +16,18 @@
     mode: "0755"
   loop: "{{ websites }}"
 
-- name: Download Ortus repository signing key
-  ansible.builtin.get_url:
-    url: "{{ commandbox_apt_key_url }}"
-    dest: /tmp/ortus-commandbox.gpg
-    mode: "0644"
-
-- name: Install Ortus repository signing key
-  ansible.builtin.command:
-    cmd: >-
-      gpg --dearmor
-      --output {{ commandbox_apt_keyring }}
-      /tmp/ortus-commandbox.gpg
-    creates: "{{ commandbox_apt_keyring }}"
-
 - name: Configure Ortus CommandBox repository
-  ansible.builtin.apt_repository:
-    repo: "{{ commandbox_apt_repository }}"
-    filename: commandbox
+  ansible.builtin.deb822_repository:
+    name: commandbox
+    types:
+      - deb
+    uris:
+      - "{{ commandbox_apt_repository_uri }}"
+    suites:
+      - "/"
+    signed_by: "{{ commandbox_apt_key_url }}"
     state: present
+    enabled: true
 
 - name: Install CommandBox
   ansible.builtin.apt:
