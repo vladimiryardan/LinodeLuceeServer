@@ -3,6 +3,9 @@
   hosts: webservers
   become: true
 
+  vars_files:
+    - ../vars/database-secrets.yml
+
   roles:
     - common
     - database

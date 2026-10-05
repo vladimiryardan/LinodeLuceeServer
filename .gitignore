@@ -36,3 +36,6 @@ ansible/inventory/hosts.yml
 
 # Local Python environment
 .venv/
+
+# Ansible local secrets
+ansible/vars/database-secrets.yml
