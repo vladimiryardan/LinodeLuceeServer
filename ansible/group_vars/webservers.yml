@@ -1,6 +1,39 @@
 ---
 server_hostname: lucee-webserver
 
-nginx_enabled: true
+websites:
+  - name: atticladderph
+    domain: atticladderph.com
+    aliases:
+      - www.atticladderph.com
 
-java_package: openjdk-21-jre-headless
+    webroot: /var/www/atticladderph
+
+    lucee:
+      port: 8081
+      java_xms: 256m
+      java_xmx: 1024m
+
+    database:
+      enabled: true
+      name: atticladderph
+      character_set: utf8mb4
+      collation: utf8mb4_unicode_ci
+
+  - name: onevoix
+    domain: onevoix.com
+    aliases:
+      - www.onevoix.com
+
+    webroot: /var/www/onevoix
+
+    lucee:
+      port: 8082
+      java_xms: 128m
+      java_xmx: 512m
+
+    database:
+      enabled: true
+      name: onevoix
+      character_set: utf8mb4
+      collation: utf8mb4_unicode_ci
