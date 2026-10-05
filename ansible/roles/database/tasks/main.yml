@@ -39,7 +39,7 @@
   community.mysql.mysql_user:
     name: "{{ item.database.user }}"
     password: "{{ database_passwords[item.name] }}"
-    host: localhost
+    host: "127.0.0.1"
     priv: "{{ item.database.name }}.*:ALL"
     state: present
     login_unix_socket: /run/mysqld/mysqld.sock

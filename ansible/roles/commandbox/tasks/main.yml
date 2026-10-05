@@ -60,6 +60,7 @@
     group: root
     mode: "0644"
   loop: "{{ websites }}"
+  register: commandbox_systemd_units
   notify: Reload systemd
 
 - name: Enable and start CommandBox servers
@@ -69,6 +70,14 @@
     state: started
     daemon_reload: true
   loop: "{{ websites }}"
+
+- name: Restart CommandBox server when systemd unit changed
+  ansible.builtin.systemd:
+    name: "commandbox-{{ item.item.name }}.service"
+    state: restarted
+    daemon_reload: true
+  loop: "{{ commandbox_systemd_units.results }}"
+  when: item.changed
 
 - name: Restart CommandBox server when configuration changed
   ansible.builtin.systemd:
