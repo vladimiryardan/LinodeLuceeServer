@@ -12,7 +12,7 @@ Group={{ commandbox_server_group }}
 WorkingDirectory={{ item.webroot }}
 Environment="COMMANDBOX_HOME={{ commandbox_home }}"
 
-ExecStart={{ commandbox_binary }} server start --console --serverConfigFile={{ item.webroot }}/server.json
+ExecStart={{ commandbox_binary }} server start --console
 
 Restart=on-failure
 RestartSec=10
