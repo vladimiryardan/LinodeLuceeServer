@@ -5,7 +5,7 @@ resource "linode_instance" "webserver" {
   type   = var.instance_type
 
   authorized_keys = [
-    file(pathexpand(var.ssh_public_key_path))
+    trimspace(file(pathexpand(var.ssh_public_key_path)))
   ]
 
   tags = [
