@@ -5,6 +5,7 @@
 
   vars_files:
     - ../vars/database-secrets.yml
+    - ../vars/atticladderph-secrets.yml
 
   roles:
     - common

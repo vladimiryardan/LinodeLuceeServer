@@ -4,6 +4,9 @@ After=network.target
 Wants=network.target
 
 [Service]
+{% if item.name == "atticladderph" %}
+EnvironmentFile=/etc/atticladderph.env
+{% endif %}
 Type=simple
 
 User={{ commandbox_server_user }}

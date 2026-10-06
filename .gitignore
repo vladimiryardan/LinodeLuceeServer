@@ -39,3 +39,6 @@ ansible/inventory/hosts.yml
 
 # Ansible local secrets
 ansible/vars/database-secrets.yml
+
+#lucee vars secret
+ansible/vars/atticladderph-secrets.yml

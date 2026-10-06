@@ -1,0 +1,12 @@
+{
+  "dataSources": {
+    "{{ item.name }}": {
+      "dbdriver": "MySQL",
+      "host": "{{ mariadb_bind_address }}",
+      "port": "{{ mariadb_port }}",
+      "database": "{{ item.database.name }}",
+      "username": "{{ item.database.user }}",
+      "password": "{{ database_passwords[item.name] }}"
+    }
+  }
+}

@@ -27,7 +27,7 @@
       - "/"
     signed_by: "{{ commandbox_apt_key_url }}"
     state: present
-    enabled: true
+    enabled: true 
 
 - name: Install CommandBox
   ansible.builtin.apt:
@@ -44,6 +44,15 @@
     mode: "0644"
   loop: "{{ websites }}"
   register: commandbox_server_configs
+
+- name: Render AtticLadderPH environment
+  ansible.builtin.template:
+    src: atticladderph.env.j2
+    dest: /etc/atticladderph.env
+    owner: root
+    group: root
+    mode: "0600"
+  no_log: true
 
 - name: Create systemd service for each Lucee instance
   ansible.builtin.template:
@@ -78,3 +87,36 @@
     state: restarted
   loop: "{{ commandbox_server_configs.results }}"
   when: item.changed
+
+- name: Render Lucee datasource configuration
+  ansible.builtin.template:
+    src: datasources.json.j2
+    dest: "/var/lib/commandbox/{{ item.name }}-datasources.json"
+    owner: "{{ commandbox_server_user }}"
+    group: "{{ commandbox_server_group }}"
+    mode: "0600"
+  loop: "{{ websites }}"
+  when:
+  - item.database.enabled | default(false) | bool
+  - item.name == "atticladderph"
+  no_log: true
+
+- name: Import Lucee datasource configuration
+  ansible.builtin.command:
+    argv:
+      - "{{ commandbox_binary }}"
+      - cfconfig
+      - import
+      - "from=/var/lib/commandbox/{{ item.name }}-datasources.json"
+      - "to={{ item.name }}"
+      - "includeList=datasources"
+      - "--append"
+  environment:
+    COMMANDBOX_HOME: "{{ commandbox_home }}"
+  become: true
+  become_user: "{{ commandbox_server_user }}"
+  loop: "{{ websites }}"
+  when:
+  - item.database.enabled | default(false) | bool
+  - item.name == "atticladderph"
+  no_log: true
