@@ -8,10 +8,23 @@
     - ../vars/atticladderph-secrets.yml
 
   roles:
-    - common
-    - database
-    - java
-    - commandbox
-    - nginx
-    - security
-    - certbot
+    - role: common
+      tags: [common]
+
+    - role: database
+      tags: [database]
+
+    - role: java
+      tags: [java]
+
+    - role: commandbox
+      tags: [commandbox]
+
+    - role: nginx
+      tags: [nginx]
+
+    - role: security
+      tags: [security]
+
+    - role: certbot
+      tags: [certbot]

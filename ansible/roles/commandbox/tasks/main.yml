@@ -120,3 +120,12 @@
   - item.database.enabled | default(false) | bool
   - item.name == "atticladderph"
   no_log: true
+
+- name: Remove temporary Lucee datasource configuration
+  ansible.builtin.file:
+    path: "/var/lib/commandbox/{{ item.name }}-datasources.json"
+    state: absent
+  loop: "{{ websites }}"
+  when:
+    - item.database.enabled | default(false) | bool
+    - item.name == "atticladderph"
