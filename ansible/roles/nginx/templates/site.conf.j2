@@ -5,6 +5,29 @@ server {
     server_name {{ item.domain }}{% for alias in item.aliases | default([]) %} {{ alias }}{% endfor %};
 
     root {{ item.webroot }};
+
+    location ^~ /.well-known/acme-challenge/ {
+        root {{ item.webroot }};
+        default_type "text/plain";
+        try_files $uri =404;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+{% if item.name == "atticladderph" %}
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    server_name {{ item.domain }}{% for alias in item.aliases | default([]) %} {{ alias }}{% endfor %};
+
+    ssl_certificate /etc/letsencrypt/live/atticladderph.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/atticladderph.com/privkey.pem;
+
+    root {{ item.webroot }};
     index index.cfm index.html index.htm;
 
     location / {
@@ -21,3 +44,4 @@ server {
         proxy_read_timeout 60s;
     }
 }
+{% endif %}
