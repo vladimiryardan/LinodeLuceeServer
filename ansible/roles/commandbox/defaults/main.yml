@@ -1,6 +1,6 @@
 ---
 commandbox_package: commandbox
-commandbox_binary: /usr/bin/box
+commandbox_binary: /usr/local/bin/box
 
 commandbox_apt_key_url: https://downloads.ortussolutions.com/debs/gpg
 commandbox_apt_repository_uri: https://downloads.ortussolutions.com/debs/noarch
