@@ -1,0 +1,6 @@
+[Unit]
+Description=Clean up old AtticLadderPH quote request uploads
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/find /var/www/atticladderph/uploads/quote-requests -type f -mtime +7 -delete

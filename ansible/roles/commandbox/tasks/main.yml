@@ -129,3 +129,26 @@
   when:
     - item.database.enabled | default(false) | bool
     - item.name == "atticladderph"
+
+- name: Install AtticLadderPH upload cleanup service
+  ansible.builtin.template:
+    src: atticladderph-upload-cleanup.service.j2
+    dest: /etc/systemd/system/atticladderph-upload-cleanup.service
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Install AtticLadderPH upload cleanup timer
+  ansible.builtin.template:
+    src: atticladderph-upload-cleanup.timer.j2
+    dest: /etc/systemd/system/atticladderph-upload-cleanup.timer
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Enable AtticLadderPH upload cleanup timer
+  ansible.builtin.systemd:
+    name: atticladderph-upload-cleanup.timer
+    enabled: true
+    state: started
+    daemon_reload: true
