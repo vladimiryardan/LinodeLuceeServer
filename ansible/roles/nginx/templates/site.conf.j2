@@ -24,6 +24,8 @@ server {
 
     server_name {{ item.domain }}{% for alias in item.aliases | default([]) %} {{ alias }}{% endfor %};
 
+    client_max_body_size 10m;
+
     ssl_certificate /etc/letsencrypt/live/atticladderph.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/atticladderph.com/privkey.pem;
 
