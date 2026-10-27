@@ -26,7 +26,7 @@
   notify: Restart MariaDB
 
 - name: Create application databases
-  ansible.mysql.mysql_db:
+  community.mysql.mysql_db:
     name: "{{ item.database.name }}"
     state: present
     encoding: "{{ item.database.character_set | default(mariadb_character_set) }}"
@@ -36,7 +36,7 @@
   when: item.database.enabled | default(false) | bool
 
 - name: Create application database users
-  ansible.mysql.mysql_user:
+  community.mysql.mysql_user:
     name: "{{ item.database.user }}"
     password: "{{ database_passwords[item.name] }}"
     host: "127.0.0.1"
