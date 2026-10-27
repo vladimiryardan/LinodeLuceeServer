@@ -1,0 +1,11 @@
+---
+- name: Deploy RustDesk Server
+  hosts: webservers
+  become: true
+
+  roles:
+    - role: docker
+      tags: [docker]
+
+    - role: rustdesk
+      tags: [rustdesk]

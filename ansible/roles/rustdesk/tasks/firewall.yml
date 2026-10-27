@@ -1,0 +1,16 @@
+---
+- name: Allow RustDesk TCP ports
+  community.general.ufw:
+    rule: allow
+    direction: in
+    port: "21115:21117"
+    proto: tcp
+    comment: RustDesk TCP
+
+- name: Allow RustDesk UDP port
+  community.general.ufw:
+    rule: allow
+    direction: in
+    port: "21116"
+    proto: udp
+    comment: RustDesk UDP

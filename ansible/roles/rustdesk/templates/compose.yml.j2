@@ -1,0 +1,19 @@
+---
+services:
+  hbbs:
+    image: "{{ rustdesk_image }}"
+    container_name: rustdesk-hbbs
+    command: hbbs -r {{ rustdesk_server_address }}:21117
+    volumes:
+      - "{{ rustdesk_install_dir }}/data:/root"
+    network_mode: "{{ rustdesk_network_mode }}"
+    restart: unless-stopped
+
+  hbbr:
+    image: "{{ rustdesk_image }}"
+    container_name: rustdesk-hbbr
+    command: hbbr
+    volumes:
+      - "{{ rustdesk_install_dir }}/data:/root"
+    network_mode: "{{ rustdesk_network_mode }}"
+    restart: unless-stopped
